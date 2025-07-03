@@ -1,8 +1,8 @@
+import { useState, useEffect } from 'react';
 import CountryCard from './CountryCard';
 import fallbackData from "../data/data.json"
 import { useCountryStore } from '../store/useCountryStore';
-import { useEffect } from 'react';
-
+import { motion, AnimatePresence } from 'framer-motion';
 
 const normalizeCountries = (data) =>
   data.map((country) => ({
@@ -14,33 +14,66 @@ const normalizeCountries = (data) =>
     code: country.cca3 || country.alpha3Code,
   }))
 
+const Spinner = () => (
+  <div className="flex justify-center items-center py-10">
+    <svg className="animate-spin h-8 w-8 text-customBlue-900 dark:text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+    </svg>
+  </div>
+)
+
+const gridVariants = {
+  visible: {
+    transition: {
+      staggerChildren: 0.08,
+    },
+  },
+}
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, type: 'spring', stiffness: 60, damping: 16 } },
+}
+
 const CountryList = () => {
  const countries = useCountryStore((state) => state.countries)
  const setCountries = useCountryStore((state) => state.setCountries)
+  const search = useCountryStore((state) => state.search)
+  const region = useCountryStore((state) => state.region)
+  const searchBy = useCountryStore((state) => state.searchBy)
+ 
+ const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        const res = await fetch('https://restcountries.com/v3.1/all')
-        if (!res.ok) throw new Error('API response not ok')
-        const data = await res.json()
-        setCountries(normalizeCountries(data))
-        console.log('✅ Fetched from API')
-      } catch (err) {
-        console.warn('⚠️ API failed, using fallback data:', err)
-        setCountries(normalizeCountries(fallbackData))
-      }
-    }
+    setCountries(normalizeCountries(fallbackData));
+    setLoading(false);
+  }, [setCountries]);
 
-    fetchCountries()
-  }, [])
+  const filtered = countries.filter((country) => {
+  const targetField = country[searchBy]?.toLowerCase?.() || ''
+  const matchesSearch = targetField.includes(search.toLowerCase())
+  const matchesRegion = region ? country.region === region : true
+  return matchesSearch && matchesRegion
+})
 
-  return (    
-     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-10 py-4 w-[90%] mx-auto">
-      {countries.map((country) => (
-        <CountryCard key={country.code} country={country} />
-      ))}
-     </div>       
+  if (loading) return <Spinner />
+
+  return (
+    <motion.div
+      className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-10 py-4 w-[90%] mx-auto"
+      variants={gridVariants}
+      initial="hidden"
+      animate="visible"
+    >
+      <AnimatePresence>
+        {filtered.map((country) => (
+          <motion.div key={country.code} variants={cardVariants}>
+            <CountryCard country={country} />
+          </motion.div>
+        ))}
+      </AnimatePresence>
+    </motion.div>
   );
 };
 
