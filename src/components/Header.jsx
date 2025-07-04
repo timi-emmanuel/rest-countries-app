@@ -6,8 +6,8 @@ export default function Header() {
 
   return (
     <header className="bg-white dark:bg-customBlue-900 shadow p-4 mb-2">
-      <div className="flex justify-between items-center mx-auto w-[90%]">
-        <h1 className="font-bold text-xl dark:text-white text-black transition-colors duration-200 min-h-[1.5em]">
+      <div className="flex justify-between items-center mx-auto w-[95%] md:w-[90%]">
+        <h1 className="font-bold text-base md:text-xl dark:text-white text-black transition-colors duration-200 min-h-[1.5em]">
           Where in the world?
         </h1>
         <button

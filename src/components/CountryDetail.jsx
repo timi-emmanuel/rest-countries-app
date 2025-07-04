@@ -86,7 +86,7 @@ const CountryDetail = () => {
   return (
     <motion.div className="w-[90%] mx-auto py-8 dark:text-white" variants={detailVariants} initial="hidden" animate="visible">
       <button
-        className="shadow bg-white dark:bg-customBlue-900 flex items-center gap-2 rounded px-6 py-2 cursor-pointer mb-12 text-customGrey-950 dark:text-white transition-colors"
+        className="shadow bg-white dark:bg-customBlue-900 flex items-center gap-2 rounded px-6 py-2 cursor-pointer mb-12 text-customGrey-950 dark:text-gray-200 transition-colors"
         onClick={() => navigate('/')}
       >
         <ArrowLeft className="w-5 h-5" />
@@ -108,51 +108,50 @@ const CountryDetail = () => {
             <div className="space-y-2">
               <p>
                 <span className="font-semibold">Native Name:</span>{' '}
-                <span className="text-customGrey-400 dark:text-customGrey-50">{nativeName || '-'}</span>
+                <span className="text-customGrey-400 dark:text-customGrey-400">{nativeName || '-'}</span>
               </p>
               <p>
                 <span className="font-semibold">Population:</span>{' '}
-                <span className="text-customGrey-400 dark:text-customGrey-50">{population.toLocaleString()}</span>
+                <span className="text-customGrey-400 ">{population.toLocaleString()}</span>
               </p>
               <p>
                 <span className="font-semibold">Region:</span>{' '}
-                <span className="text-customGrey-400 dark:text-customGrey-50">{region}</span>
+                <span className="text-customGrey-400 ">{region}</span>
               </p>
               <p>
                 <span className="font-semibold">Sub Region:</span>{' '}
-                <span className="text-customGrey-400 dark:text-customGrey-50">{subregion}</span>
-              </p>
-              <p>
+                <span className="text-customGrey-400 ">{subregion}</span>
+              </p>              <p>
                 <span className="font-semibold">Capital:</span>{' '}
-                <span className="text-customGrey-400 dark:text-customGrey-50">{capital}</span>
+                <span className="text-customGrey-400">{capital}</span>
               </p>
             </div>
             <div className="space-y-2">
               <p>
                 <span className="font-semibold">Top Level Domain:</span>{' '}
-                <span className="text-customGrey-400 dark:text-customGrey-50">{topLevelDomain}</span>
+                <span className="text-customGrey-400">{topLevelDomain}</span>
               </p>
               <p>
                 <span className="font-semibold">Currencies:</span>{' '}
-                <span className="text-customGrey-400 dark:text-customGrey-50">{currencies}</span>
+                <span className="text-customGrey-400">{currencies}</span>
               </p>
               <p>
                 <span className="font-semibold">Languages:</span>{' '}
-                <span className="text-customGrey-400 dark:text-customGrey-50">{languages}</span>
+                <span className="text-customGrey-400">{languages}</span>
               </p>
             </div>
           </div>
 
           <div className="mt-10 flex flex-col md:flex-row  gap-4">
             <span className="font-semibold">Border Countries:</span>
-            <ul className="flex flex-wrap gap-2">
+            <ul className="flex flex-wrap gap-3">
               {borderCountryNames.length > 0 ? (
                 borderCountryNames.map((name) => (
                   <li key={name}>
                     <motion.div whileHover={{ scale: 1.08 }} whileTap={{ scale: 0.96 }} style={{ display: 'inline-block' }}>
                       <Link
                         to={`/country/${name}`}
-                        className="px-4 py-2 bg-white dark:bg-customBlue-900 shadow text-sm rounded transition-colors border border-customGrey-50 dark:border-customBlue-950 hover:bg-customGrey-50 dark:hover:bg-customBlue-950"
+                        className="px-3  py-1 bg-white dark:bg-customBlue-900 shadow text-sm rounded transition-colors border border-customGrey-50 dark:border-customBlue-950 hover:bg-customGrey-50 dark:hover:bg-customBlue-950 dark:text-gray-400"
                       >
                         {name}
                       </Link>
