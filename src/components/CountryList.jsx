@@ -3,6 +3,7 @@ import CountryCard from './CountryCard';
 import fallbackData from "../data/data.json";
 import { useCountryStore } from '../store/useCountryStore';
 import { motion, AnimatePresence } from 'framer-motion';
+import { SearchX } from 'lucide-react';
 
 // Normalize country data structure
 const normalizeCountries = (data) =>
@@ -86,6 +87,18 @@ const CountryList = () => {
   });
 
   if (loading) return <Spinner />;
+
+  if (filtered.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-16 w-full text-center dark:text-white">
+        <div className="flex items-center justify-center w-16 h-16 mb-4">
+          <SearchX className="w-12 h-12 text-customGrey-400 dark:text-customGrey-400" />
+        </div>
+        <p className="text-lg font-semibold mb-2">No countries found</p>
+        <p className="text-customGrey-400">Try adjusting your search or filter criteria.</p>
+      </div>
+    );
+  }
 
   return (
     <motion.div
